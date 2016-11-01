@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>贪吃蛇</title>
+	<style type="text/css">
+	/*这样做能使网页在所有浏览器中效果都一样*/
+		*{margin: 0;padding: 0;}
+		#daDiv{
+			position: absolute;
+			width: 500px;
+			height: 500px;
+			border: 1px solid black;
+		}
+		.newDiv{
+			position: absolute;
+			width: 50px;
+			height: 50px;
+			background-color: blue;
+		}
+		.newSnake{
+			position: absolute;
+			background-color: red;
+			width: 50px;
+			height: 50px;
+		}
+	</style>
+</head>
+<body>
+	
+	<div id="daDiv">
+		<div style="background:red; width: 50px;height: 50px; position:absolute;" id="myDiv"></div>
+	</div>
+
+
+
+	<script type="text/javascript">
+		var myDiv = document.getElementById('myDiv');
+		var daDiv = document.getElementById('daDiv');
+		var newkuai;
+		var timer = null;
+		var arrLeft = [];
+		var arrTop = [];
+		var snakeList = null;
+		var you = function(fx,offang,speed) {
+			clearInterval(timer);
+			timer = setInterval(function () {
+				myDiv.style[fx] = myDiv[offang] +speed + 'px';
+				arrLeft.push(myDiv.offsetLeft);
+				arrTop.push(myDiv.offsetTop);
+				if(myDiv.offsetLeft==newkuai.offsetLeft&&myDiv.offsetTop==newkuai.offsetTop){
+					newDiv();
+					var newSnake = document.createElement('div');
+					newSnake.className = 'newSnake';
+					daDiv.appendChild(newSnake);
+					
+					
+				}
+				snakeList = document.getElementsByClassName('newSnake');
+				if(snakeList.length!=0){
+					for(var i = 0;i<=snakeList.length-1;i++){
+					snakeList[i].style.left = arrLeft[arrLeft.length-2-i]+"px";
+					snakeList[i].style.top = arrTop[arrTop.length-2-i]+"px";
+					}
+				}
+				
+			},500)
+		}
+		onkeydown = function(ev){
+			ev = ev||event;
+			if(ev.keyCode ==39){
+				you('left',"offsetLeft",50)
+			}if(ev.keyCode ==37){
+				you('left',"offsetLeft",-50)
+			}
+			if(ev.keyCode ==38){
+				you('top',"offsetTop",-50)
+			}
+			if(ev.keyCode ==40){
+				you('top',"offsetTop",50)
+			}
+
+		}
+		newkuai = document.createElement('div');
+		newkuai.className = 'newDiv';
+		daDiv.appendChild(newkuai);
+		function newDiv(){
+			newkuai.style.left = parseInt(Math.random()*daDiv.offsetWidth/50)*50 + "px";
+			newkuai.style.top = parseInt(Math.random()*daDiv.offsetHeight/50)*50 + "px";
+		}
+		newDiv();
+
+
+
+
+	</script>
+</body>
+</html>
